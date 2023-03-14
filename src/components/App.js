@@ -1,6 +1,6 @@
 import Form from './Form';
 
-import './App.css';
+import '../style/app.scss';
 
 function App() {
   return (
