@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 import * as Yup from 'yup';
 
 // Самостоятельная валидация.
@@ -20,6 +20,23 @@ import * as Yup from 'yup';
 
 //   return errors;
 // };
+
+const MyTextInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  // useField позволяет получать массив из двух объектов,
+  // FIELD - это просы, то что мы передаем ниже в input(события - onChange, onBlur, value),
+  // которые отвечают за текущее состояние нашего инпута, все эти значения будут получаться через context из Formik.
+  // META - это метаданные с ошибками и был ли уже использован этот инпут.
+  return (
+    <>
+      <label htmlFor={props.name}>{label}</label>
+      <input {...props} {...field} />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
+  );
+};
 
 const FormikForm = () => {
   return (
@@ -53,7 +70,8 @@ const FormikForm = () => {
     >
       <Form className="form">
         <h2>Отправить пожертвование</h2>
-        <label htmlFor="name">Ваше имя</label>
+        {/* Старая запись, заменили на MyTextInput, что бы не было дублирование кода. */}
+        {/* <label htmlFor="name">Ваше имя</label>
         <Field
           id="name"
           name="name"
@@ -63,14 +81,19 @@ const FormikForm = () => {
           // value={formik.values.name}
           // onBlur={formik.handleBlur}
         />
-        <ErrorMessage name="name" className="error" component={'div'} />
-        <label htmlFor="email">Ваша почта</label>
-        <Field
+        <ErrorMessage name="name" className="error" component={'div'} /> */}
+        <MyTextInput
+          label="Ваше имя"
+          id="name"
+          name="name"
+          type="text"
+        />
+        <MyTextInput
+          label="Ваша почта"
           id="email"
           name="email"
           type="email"
         />
-        <ErrorMessage name="email" className="error" component={'div'} />
         <label htmlFor="amount">Количество</label>
         <Field
           id="amount"
