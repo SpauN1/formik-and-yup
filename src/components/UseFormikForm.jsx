@@ -59,9 +59,12 @@ const UseFormikForm = () => {
         id="name"
         name="name"
         type="text"
-        onChange={formik.handleChange}
-        value={formik.values.name}
-        onBlur={formik.handleBlur}
+        // onChange={formik.handleChange}
+        // value={formik.values.name}
+        // onBlur={formik.handleBlur}
+
+        //Сокращенная запись.
+        {...formik.getFieldProps('name')}
       />
       {formik.errors.name && formik.touched.name ? (
         <div className="error">{formik.errors.name}</div>
