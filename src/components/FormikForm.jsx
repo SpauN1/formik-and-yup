@@ -38,6 +38,22 @@ const MyTextInput = ({ label, ...props }) => {
   );
 };
 
+const MyCheckbox = ({ children, ...props }) => {
+  const [field, meta] = useField({ ...props, type: 'checbox' }); //В useField вторым аргументом можно передать тип.
+  return (
+    <>
+      <label className="checkbox">
+        <input type="checkbox" {...props} {...field} />
+        {children}
+      </label>
+      
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
+  );
+};
+
 const FormikForm = () => {
   return (
     <Formik
@@ -70,7 +86,7 @@ const FormikForm = () => {
     >
       <Form className="form">
         <h2>Отправить пожертвование</h2>
-        {/* Старая запись, заменили на MyTextInput, что бы не было дублирование кода. */}
+        {/* Базовая запись, заменили на MyTextInput, что бы не было дублирование кода. */}
         {/* <label htmlFor="name">Ваше имя</label>
         <Field
           id="name"
@@ -120,14 +136,18 @@ const FormikForm = () => {
           name="text"
         />
         <ErrorMessage name="text" className="error" component={'div'} />
-        <label className="checkbox">
+        {/* Базовая запись, заменили на MyCheckbox, что бы не было дублирование кода. */}
+        {/* <label className="checkbox">
           <Field 
             name="terms"
             type="checkbox"
           />
           Соглашаетесь с политикой конфиденциальности?
         </label>
-        <ErrorMessage name="terms" className="error" component={'div'} />
+        <ErrorMessage name="terms" className="error" component={'div'} /> */}
+        <MyCheckbox name="terms">
+            Соглашаетесь с политикой конфиденциальности?
+        </MyCheckbox>
         <button type="submit">Отправить</button>
       </Form>
     </Formik>
